@@ -1,0 +1,18 @@
+name: oidc-pr
+# Test (lives only on the PR branch): a pull_request or push job on a non-dev
+# branch must be refused by the dev-only "Factory Review" environment rule.
+on:
+  pull_request:
+    branches: [dev]
+  push:
+    branches: [oidc-test]
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  claims:
+    runs-on: ubuntu-latest
+    environment: Factory Review
+    steps:
+      - name: Should never run
+        run: echo "REACHED - the environment rule did not stop this job"
